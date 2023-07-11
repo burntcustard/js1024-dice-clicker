@@ -37,9 +37,8 @@ const diceSectionInner = document.createElement('div');
 diceSectionElement.append(diceSectionLabel, diceSectionInner);
 b.append(diceSectionElement);
 diceSectionInner.style.cssText = `
-
   display: grid;
-  grid: auto-flow dense / repeat(6, 1fr);
+  grid: auto-flow dense / repeat(6, 46px);
 `;
 diceSectionLabel.innerHTML = 'Dice';
 
@@ -105,7 +104,7 @@ buyNewDice.style.cssText = `
 buyNewDice.onclick = () => {
   score -= buyNewDice.cost;
   scoreSectionInner.innerHTML = score;
-  buyNewDice.cost = ~~(buyNewDice.cost**1.1);
+  buyNewDice.cost = ~~(buyNewDice.cost**1.09);
   buyNewDice.innerHTML = `⚅ (${buyNewDice.cost})`;
   for (let i = shopSectionInner.children.length; i--;) {
     shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
