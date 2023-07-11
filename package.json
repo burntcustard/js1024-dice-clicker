@@ -1,0 +1,32 @@
+{
+  "name": "js1024-dice-clicker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "sync": "browser-sync -w --index index.watch.html",
+    "watch-js": "chokidar **/*.js -c 'node build.js'",
+    "dev": "npm-run-all --parallel watch-js sync",
+    "watch": "npm-run-all build dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burntcustard/js1024-dice-clicker.git"
+  },
+  "author": "burntcustard <burntcustard@gmail.com> (https://burnt.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/burntcustard/js1024-dice-clicker/issues"
+  },
+  "homepage": "https://github.com/burntcustard/js1024-dice-clicker#readme",
+  "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "chokidar-cli": "^3.0.0",
+    "html-minifier": "^4.0.0",
+    "npm-run-all": "^4.1.5",
+    "regpack": "^5.0.1",
+    "terser": "^5.18.2"
+  }
+}
