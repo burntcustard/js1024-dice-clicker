@@ -182,5 +182,7 @@ initDiceType(360, '×', (num1, num2) => num1 * num2);
 
 initDiceType(1080, '^', (num1, num2) => num1 ** num2);
 
+scoreElement.innerHTML = score;
+
 // We could set all items to initially disabled, but this is repeated code
 [...shopElement.children].filter((item) => item.disabled = score < item.cost);
