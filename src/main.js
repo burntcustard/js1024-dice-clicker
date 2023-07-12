@@ -55,7 +55,7 @@ const addNewShopItem = (icon, cost, buyCallback) => {
   item.onclick = () => {
     score -= item.cost;
     scoreElement.innerHTML = `•${score}`;
-    item.cost = item.cost * 1.2 | 0;
+    item.cost = item.cost * 1.2 | 0; // Next time buying the item will be more expensive
     item.costElement.innerHTML = `•${item.cost}`;
     // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
     [...shopElement.children].filter((item) => item.disabled = score < item.cost);
