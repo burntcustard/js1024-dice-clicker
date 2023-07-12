@@ -44,7 +44,7 @@ js = js
   // // Replace slices global vars with single letter non-declared versions
   // .replaceAll(/(const\s)?board/g, 'm')
   // Replace const with let declartion
-  // .replaceAll('const ', 'let ')
+  .replaceAll('const ', 'let ')
   // Replace all strict equality comparison with abstract equality comparison
   .replaceAll('===', '==')
   .replaceAll('!==', '!=')

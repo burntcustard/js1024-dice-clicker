@@ -1,4 +1,4 @@
-let score = 10000;
+let score = 0;
 
 b.style.cssText = `
   display: inline-grid;
@@ -56,9 +56,7 @@ shopSectionLabel.innerHTML = 'Shop';
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const refreshShop = () => {
-  for (let i = shopSectionInner.children.length; i--;) {
-    shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
-  }
+  [...shopSectionInner.children].map((item) => item.disabled = score < item.cost);
 };
 
 const buyItem = (item) => {
@@ -80,6 +78,7 @@ const initDiceType = (
     display: flex;
     font: 32px system-ui;
     padding: 2px 8px;
+    align-items: end;
   `;
 
   buyNewDice.viewElement = document.createElement('div');
@@ -94,13 +93,15 @@ const initDiceType = (
   shopSectionInner.append(buyNewDice);
   buyNewDice.new = () => {
     const newDice = document.createElement('button');
+    // position: sticky is used in place of relative but saves 2B
+    // separator?.length + 1 is 1 or 2 (false + 1 = 1)
     newDice.style.cssText = `
       display: flex;
       align-items: center;
       font: 32px system-ui;
       padding: 2px 8px;
-      position: relative;
-      grid-column: span ${separator ? '2' : '1'};
+      position: sticky;
+      grid-column: span ${separator?.length + 1};
     `;
     newDice.inner1 = document.createElement('div');
     newDice.inner1.innerHTML = '⚅';
@@ -124,10 +125,9 @@ const initDiceType = (
     // 'red' uses reused characters so is < '#000', and the actual color
     // doesn't matter because it's always an emoji with it's own colors
     newDice.overlay.style.cssText = `
-      position: absolute;
-      bottom: 0;
-      right: 0;
       color: red;
+      position: absolute;
+      inset: auto 0 0 auto;
       font: 20px monospace;
     `;
     newDice.append(newDice.overlay);
@@ -167,11 +167,12 @@ initDiceType(6)();
 
 
 const buyNewRat = document.createElement('button');
-buyNewRat.cost = 30;
+buyNewRat.cost = 24;
 buyNewRat.style.cssText = `
   display: flex;
   font: 32px system-ui;
   padding: 2px 8px;
+  align-items: end;
 `;
 buyNewRat.viewElement = document.createElement('div');
 buyNewRat.viewElement.innerHTML = '🐀';
@@ -186,7 +187,7 @@ buyNewRat.onclick = () => {
   buyItem(buyNewRat);
   const newRat = document.createElement('div');
   newRat.style.cssText = `
-    display: grid;
+    display: inline-grid;
     font: 32px system-ui;
     place-items: center;
   `;
@@ -209,11 +210,11 @@ buyNewRat.onclick = () => {
 }
 shopSectionInner.append(buyNewRat);
 
-initDiceType(90, '+', (num1, num2) => num1 + num2);
+initDiceType(72, '+', (num1, num2) => num1 + num2);
 
 initDiceType(360, '×', (num1, num2) => num1 * num2);
 
-initDiceType(720, '^', (num1, num2) => num1 ** num2);
+initDiceType(1080, '^', (num1, num2) => num1 ** num2);
 
 refreshShop();
 // const testButton1 = document.createElement('button');
