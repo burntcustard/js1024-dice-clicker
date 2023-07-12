@@ -32,11 +32,6 @@ scoreSectionInner.innerHTML = `•${score}`;
 // const diceAnimationFrames = ['◩', '⬘', '⬔', '⬗', '◪', '⬙', '⬕', '⬖']; // Unused because wonky sizes and takes up more space(?)
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
-const refreshShop = () => {
-  // .map() or .forEach() would make more sense, but only filter used in the codebase elsewhere
-  [...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
-};
-
 const addNewShopItem = (icon, cost, buyCallback) => {
   const item = document.createElement('button');
 
@@ -64,7 +59,8 @@ const addNewShopItem = (icon, cost, buyCallback) => {
     scoreSectionInner.innerHTML = `•${score}`;
     item.cost = ~~(item.cost*1.2);
     item.costElement.innerHTML = `•${item.cost}`;
-    refreshShop();
+    // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
+    [...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
     buyCallback();
   }
 
@@ -141,7 +137,7 @@ const initDiceType = (
         score += separator ? diceCallback(newDice.result1 + 1, newDice.result2 + 1) : newDice.result1 + 1;
         scoreSectionInner.innerHTML = `•${score}`;
         newDice.overlay.innerHTML = '';
-        refreshShop();
+        [...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
       }, 4000);
     }
 
@@ -196,4 +192,5 @@ initDiceType(360, '×', (num1, num2) => num1 * num2);
 
 initDiceType(1080, '^', (num1, num2) => num1 ** num2);
 
-refreshShop();
+// We could set all items to initially disabled, but this is repeated code
+[...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
