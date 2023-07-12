@@ -10,7 +10,7 @@ const addUIElement = (name, rowHeight, colCount, colWidth) => {
   const section = document.createElement('fieldset');
   const label = document.createElement('legend');
   const inner = document.createElement('div');
-  section.style.cssText = rowHeight ? '' : 'grid-column:1/-1';
+  section.style.cssText = !rowHeight && 'grid-column:1/-1';
   section.append(label, inner);
   inner.style.cssText = `
     display: inline-grid;
@@ -73,8 +73,8 @@ const initDiceType = (
   const addNewDice = () => {
     const newDice = document.createElement('button');
 
-      // position: sticky is used in place of relative but saves 2B
-      // separator?.length + 1 is 1 or 2 (false + 1 = 1)
+    // position: sticky is used in place of relative but saves 2B
+    // separator?.length + 1 is 1 or 2 (false + 1 = 1)
     newDice.style.cssText = `
       display: flex;
       font: 32px system-ui;
