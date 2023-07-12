@@ -81,15 +81,13 @@ const initDiceType = (
     `;
     newDice.append(newDice.inner1);
 
-    if (separator) {
-      newDice.inner2 = document.createElement('div');
-      newDice.inner2.innerHTML = '⚅';
-      newDice.inner2.style.cssText = `
-        display: inline-grid;
-        transition: .5s all;
-      `;
-      newDice.append(separator, newDice.inner2);
-    }
+    newDice.inner2 = document.createElement('div');
+    newDice.inner2.innerHTML = '⚅';
+    newDice.inner2.style.cssText = `
+      display: inline-grid;
+      transition: .5s all;
+    `;
+    separator && newDice.append(separator, newDice.inner2);
 
     newDice.overlay = document.createElement('div');
     // 'red' uses reused characters so is < '#000', and the actual color
@@ -109,13 +107,11 @@ const initDiceType = (
         newDice.inner1.style.rotate = `${Math.random()}turn`;
       }, 300 * i));
 
-      if (separator) {
-        diceFaces.concat(diceFaces).map((_, i) => setTimeout(() => {
-          newDice.result2 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
-          newDice.inner2.innerHTML = diceFaces[newDice.result2];
-          newDice.inner2.style.rotate = `${Math.random()}turn`;
-        }, 300 * i));
-      }
+      diceFaces.concat(diceFaces).map((_, i) => setTimeout(() => {
+        newDice.result2 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
+        newDice.inner2.innerHTML = diceFaces[newDice.result2];
+        newDice.inner2.style.rotate = `${Math.random()}turn`;
+      }, 300 * i));
 
       setTimeout(() => {
         newDice.disabled = false;
