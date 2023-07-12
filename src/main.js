@@ -22,12 +22,10 @@ const addUIElement = (name, rowHeight, colCount, colWidth) => {
   return inner;
 }
 
-const scoreSectionInner = addUIElement('Score');
-const diceSectionInner = addUIElement('Dice', 48, 6, 48);
-const critterSectionInner = addUIElement('Critters', 32, 4, 48);
-const shopSectionInner = addUIElement('Shop', 48, 1, 192);
-
-scoreSectionInner.innerHTML = `•${score}`;
+const scoreElement = addUIElement('Score');
+const diceElement = addUIElement('Dice', 48, 6, 48);
+const critterElement = addUIElement('Critters', 32, 4, 48);
+const shopElement = addUIElement('Shop', 48, 1, 192);
 
 // const diceAnimationFrames = ['◩', '⬘', '⬔', '⬗', '◪', '⬙', '⬕', '⬖']; // Unused because wonky sizes and takes up more space(?)
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
@@ -56,15 +54,15 @@ const addNewShopItem = (icon, cost, buyCallback) => {
 
   item.onclick = () => {
     score -= item.cost;
-    scoreSectionInner.innerHTML = `•${score}`;
+    scoreElement.innerHTML = `•${score}`;
     item.cost = item.cost * 1.2 | 0;
     item.costElement.innerHTML = `•${item.cost}`;
     // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
-    [...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
+    [...shopElement.children].filter((item) => item.disabled = score < item.cost);
     buyCallback();
   }
 
-  shopSectionInner.append(item);
+  shopElement.append(item);
 };
 
 const initDiceType = (
@@ -135,13 +133,13 @@ const initDiceType = (
       setTimeout(() => {
         newDice.disabled = false;
         score += separator ? diceCallback(newDice.result1 + 1, newDice.result2 + 1) : newDice.result1 + 1;
-        scoreSectionInner.innerHTML = `•${score}`;
+        scoreElement.innerHTML = `•${score}`;
         newDice.overlay.innerHTML = '';
-        [...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
+        [...shopElement.children].filter((item) => item.disabled = score < item.cost);
       }, 4000);
     }
 
-    diceSectionInner.append(newDice);
+    diceElement.append(newDice);
   };
 
   addNewShopItem(
@@ -164,10 +162,10 @@ addNewShopItem('🐀', 24, () => {
     place-items: center;
   `;
   newRat.innerHTML = '🐀';
-  critterSectionInner.append(newRat);
+  critterElement.append(newRat);
 
   const nudgeDice = () => {
-    const activeDice = [...diceSectionInner.children].filter(d => !d.disabled);
+    const activeDice = [...diceElement.children].filter(d => !d.disabled);
 
     if (activeDice.length) {
       const autoRollDice = activeDice[Math.random() * activeDice.length | 0]; // |0 to round down
@@ -193,4 +191,4 @@ initDiceType(360, '×', (num1, num2) => num1 * num2);
 initDiceType(1080, '^', (num1, num2) => num1 ** num2);
 
 // We could set all items to initially disabled, but this is repeated code
-[...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
+[...shopElement.children].filter((item) => item.disabled = score < item.cost);
