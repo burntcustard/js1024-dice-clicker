@@ -15,7 +15,6 @@ const addUIElement = (name, rowHeight, colCount, colWidth) => {
   section.append(label, inner);
   inner.style.cssText = `
     display: inline-grid;
-    font: 20px monospace;
     grid: auto-flow dense ${rowHeight}px / repeat(${colCount}, ${colWidth}px);
   `;
   label.innerHTML = name;
@@ -91,14 +90,12 @@ const initDiceType = (
 
     if (separator) {
       newDice.inner2 = document.createElement('div');
-      newDice.inner2.innerHTML = separator;
-      newDice.inner3 = document.createElement('div');
-      newDice.inner3.innerHTML = '⚅';
-      newDice.inner3.style.cssText = `
+      newDice.inner2.innerHTML = '⚅';
+      newDice.inner2.style.cssText = `
         display: inline-grid;
         transition: .5s all;
       `;
-      newDice.append(newDice.inner2, newDice.inner3);
+      newDice.append(separator, newDice.inner2);
     }
 
     newDice.overlay = document.createElement('div');
@@ -122,10 +119,11 @@ const initDiceType = (
       if (separator) {
         diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
           newDice.result2 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
-          newDice.inner3.innerHTML = diceFaces[newDice.result2];
-          newDice.inner3.style.rotate = `${Math.random()}turn`;
+          newDice.inner2.innerHTML = diceFaces[newDice.result2];
+          newDice.inner2.style.rotate = `${Math.random()}turn`;
         }, 300 * i));
       }
+
       setTimeout(() => {
         newDice.disabled = false;
         score += separator ? diceCallback(newDice.result1 + 1, newDice.result2 + 1) : newDice.result1 + 1;
