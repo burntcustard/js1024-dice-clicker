@@ -210,7 +210,7 @@ buyNewRat.onclick = () => {
 }
 shopSectionInner.append(buyNewRat);
 
-initDiceType(72, '+', (num1, num2) => num1 + num2);
+initDiceType(60, '+', (num1, num2) => num1 + num2);
 
 initDiceType(360, '×', (num1, num2) => num1 * num2);
 
