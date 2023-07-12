@@ -6,57 +6,35 @@ b.style.cssText = `
   grid: auto-flow dense / repeat(3, auto);
 `;
 
-const scoreSectionElement = document.createElement('fieldset');
-const scoreSectionInner = document.createElement('div');
-scoreSectionElement.append(scoreSectionInner);
-b.append(scoreSectionElement);
-scoreSectionElement.style.cssText = `
-  display: inline-grid;
-  grid-column: 1 / -1;
-`;
+const addUIElement = (name, rowHeight, colCount, colWidth) => {
+  const section = document.createElement('fieldset');
+  const label = document.createElement('legend');
+  const inner = document.createElement('div');
+  section.style.cssText = rowHeight ? '' : 'grid-column:1/-1';
+  section.append(label, inner);
+  inner.style.cssText = `
+    display: inline-grid;
+    font: 20px monospace;
+    grid: auto-flow dense ${rowHeight}px / repeat(${colCount}, ${colWidth}px);
+  `;
+  label.innerHTML = name;
+  b.append(section);
+  return inner;
+}
+
+const scoreSectionInner = addUIElement('Score');
+const diceSectionInner = addUIElement('Dice', 48, 6, 48);
+const critterSectionInner = addUIElement('Critters', 32, 4, 48);
+const shopSectionInner = addUIElement('Shop', 48, 1, 192);
+
 scoreSectionInner.innerHTML = `•${score}`;
-
-const diceSectionElement = document.createElement('fieldset');
-const diceSectionLabel = document.createElement('legend');
-const diceSectionInner = document.createElement('div');
-diceSectionElement.append(diceSectionLabel, diceSectionInner);
-b.append(diceSectionElement);
-diceSectionInner.style.cssText = `
-  display: inline-grid;
-  font: 32px system-ui;
-  grid: auto-flow dense 48px / repeat(6, 48px);
-`;
-diceSectionLabel.innerHTML = 'Dice';
-
-const critterSectionElement = document.createElement('fieldset');
-const critterSectionLabel = document.createElement('legend');
-const critterSectionInner = document.createElement('div');
-critterSectionElement.append(critterSectionLabel, critterSectionInner);
-b.append(critterSectionElement);
-critterSectionInner.style.cssText = `
-  display: inline-grid;
-  font: 32px system-ui;
-  grid: auto-flow dense 32px / repeat(4, 48px);
-`;
-critterSectionLabel.innerHTML = 'Critters';
-
-const shopSectionElement = document.createElement('fieldset');
-const shopSectionLabel = document.createElement('legend');
-const shopSectionInner = document.createElement('div');
-shopSectionElement.append(shopSectionLabel, shopSectionInner);
-b.append(shopSectionElement);
-shopSectionInner.style.cssText = `
-  display: inline-grid;
-  font: 32px system-ui;
-  grid: auto-flow dense 48px / repeat(1, 192px);
-`;
-shopSectionLabel.innerHTML = 'Shop';
 
 // const diceAnimationFrames = ['◩', '⬘', '⬔', '⬗', '◪', '⬙', '⬕', '⬖']; // Unused because wonky sizes and takes up more space(?)
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const refreshShop = () => {
-  [...shopSectionInner.children].map((item) => item.disabled = score < item.cost);
+  // .map() or .forEach() would make more sense, but only filter used in the codebase elsewhere
+  [...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
 };
 
 const addNewShopItem = (icon, cost, buyCallback) => {
