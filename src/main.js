@@ -1,35 +1,20 @@
-let score = 0;
+let score = 10000;
 
-b.innerHTML = `<style>
-  #b {
-    font: 2em system-ui;
-    display: inline-grid;
-    grid: auto-flow dense / repeat(3, auto);
-  }
-
-  button {
-    font: 1em system-ui;
-    padding: 2px 6px;
-    position: relative;
-  }
-
-  button * {
-    transition: .5s all;
-  }
-</style>`;
+b.style.cssText = `
+  display: inline-grid;
+  font: 20px system-ui;
+  grid: auto-flow dense / repeat(3, auto);
+`;
 
 const scoreSectionElement = document.createElement('fieldset');
-const scoreSectionLabel = document.createElement('legend');
-const scoreSectionInner = document.createElement('code');
-scoreSectionElement.append(scoreSectionLabel, scoreSectionInner);
+const scoreSectionInner = document.createElement('div');
+scoreSectionElement.append(scoreSectionInner);
 b.append(scoreSectionElement);
 scoreSectionElement.style.cssText = `
-  display: grid;
-  grid: auto-flow dense / repeat(6, 1fr);
+  display: inline-grid;
   grid-column: 1 / -1;
 `;
-scoreSectionLabel.innerHTML = 'Score';
-scoreSectionInner.innerHTML = score;
+scoreSectionInner.innerHTML = `•${score}`;
 
 const diceSectionElement = document.createElement('fieldset');
 const diceSectionLabel = document.createElement('legend');
@@ -37,8 +22,9 @@ const diceSectionInner = document.createElement('div');
 diceSectionElement.append(diceSectionLabel, diceSectionInner);
 b.append(diceSectionElement);
 diceSectionInner.style.cssText = `
-  display: grid;
-  grid: auto-flow dense / repeat(6, 46px);
+  display: inline-grid;
+  font: 32px system-ui;
+  grid: auto-flow dense 48px / repeat(6, 48px);
 `;
 diceSectionLabel.innerHTML = 'Dice';
 
@@ -48,8 +34,9 @@ const critterSectionInner = document.createElement('div');
 critterSectionElement.append(critterSectionLabel, critterSectionInner);
 b.append(critterSectionElement);
 critterSectionInner.style.cssText = `
-  display: grid;
-  grid: auto-flow dense / repeat(4, 2ch);
+  display: inline-grid;
+  font: 32px system-ui;
+  grid: auto-flow dense 32px / repeat(4, 48px);
 `;
 critterSectionLabel.innerHTML = 'Critters';
 
@@ -59,149 +46,155 @@ const shopSectionInner = document.createElement('div');
 shopSectionElement.append(shopSectionLabel, shopSectionInner);
 b.append(shopSectionElement);
 shopSectionInner.style.cssText = `
-  width: 180px;
-  display: grid;
+  display: inline-grid;
+  font: 32px system-ui;
+  grid: auto-flow dense 48px / repeat(1, 192px);
 `;
 shopSectionLabel.innerHTML = 'Shop';
 
 // const diceAnimationFrames = ['◩', '⬘', '⬔', '⬗', '◪', '⬙', '⬕', '⬖']; // Unused because wonky sizes and takes up more space(?)
-const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
-const addNewDice = () => {
-  const newDice = document.createElement('button');
-  newDice.inner = document.createElement('div');
-  newDice.inner.innerHTML = '⚅';
-  newDice.overlay = document.createElement('small');
-  newDice.overlay.style.cssText = `position: absolute; bottom: 0; right: 0;`;
-  newDice.append(newDice.inner, newDice.overlay);
-  newDice.onclick = () => {
-    newDice.disabled = true;
-    diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
-      newDice.result = ~~(Math.random() * 6); // It's 0-indexed
-      newDice.inner.innerHTML = diceFaces[newDice.result];
-      newDice.inner.style.rotate = `${Math.random()}turn`;
-    }, 300 * i));
-    setTimeout(() => {
-      newDice.disabled = false;
-      score += newDice.result + 1;
-      scoreSectionInner.innerHTML = score;
-      newDice.overlay.innerHTML = '';
-
-      for (let i = shopSectionInner.children.length; i--;) {
-        shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
-      }
-    }, 4000);
-  }
-  diceSectionInner.append(newDice);
-};
-
-const buyNewDice = document.createElement('button');
-buyNewDice.cost = 6;
-buyNewDice.innerHTML = `⚅ (${buyNewDice.cost})`;
-buyNewDice.style.cssText = `
-
-`;
-buyNewDice.onclick = () => {
-  score -= buyNewDice.cost;
-  scoreSectionInner.innerHTML = score;
-  buyNewDice.cost = ~~(buyNewDice.cost**1.09);
-  buyNewDice.innerHTML = `⚅ (${buyNewDice.cost})`;
+const refreshShop = () => {
   for (let i = shopSectionInner.children.length; i--;) {
     shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
   }
-  addNewDice();
-}
-shopSectionInner.append(buyNewDice);
+};
 
-const addNewPlusDice = () => {
-  const newPlusDice = document.createElement('button');
-  newPlusDice.style.cssText = `
-    grid-column: span 2;
+const buyItem = (item) => {
+  score -= item.cost;
+  scoreSectionInner.innerHTML = `•${score}`;
+  item.cost = ~~(item.cost*1.2);
+  item.costElement.innerHTML = `•${item.cost}`;
+  refreshShop();
+};
+
+const initDiceType = (
+  cost,
+  separator,
+  callback,
+) => {
+  const buyNewDice = document.createElement('button');
+  buyNewDice.cost = cost;
+  buyNewDice.style.cssText = `
+    display: flex;
+    font: 32px system-ui;
+    padding: 2px 8px;
   `;
-  newPlusDice.inner = document.createElement('div');
-  newPlusDice.inner1 = document.createElement('div');
-  newPlusDice.inner1.innerHTML = '⚅';
-  newPlusDice.inner1.style.display = 'inline-block';
-  newPlusDice.inner2 = document.createElement('div');
-  newPlusDice.inner2.innerHTML = ' + ';
-  newPlusDice.inner2.style.display = 'inline-block';
-  newPlusDice.inner3 = document.createElement('div');
-  newPlusDice.inner3.innerHTML = '⚅';
-  newPlusDice.inner3.style.display = 'inline-block';
-  newPlusDice.inner.append(newPlusDice.inner1, newPlusDice.inner2, newPlusDice.inner3);
-  newPlusDice.overlay = document.createElement('small');
-  newPlusDice.overlay.style.cssText = `position: absolute; bottom: 0; right: 0;`;
-  newPlusDice.append(newPlusDice.inner, newPlusDice.overlay);
-  newPlusDice.onclick = () => {
-    newPlusDice.disabled = true;
-    diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
-      newPlusDice.result1 = ~~(Math.random() * 6); // It's 0-indexed
-      newPlusDice.inner1.innerHTML = diceFaces[newPlusDice.result1];
-      newPlusDice.inner1.style.rotate = `${Math.random()}turn`;
-    }, 300 * i));
-    diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
-      newPlusDice.result2 = ~~(Math.random() * 6); // It's 0-indexed
-      newPlusDice.inner3.innerHTML = diceFaces[newPlusDice.result2];
-      newPlusDice.inner3.style.rotate = `${Math.random()}turn`;
-    }, 300 * i));
-    setTimeout(() => {
-      newPlusDice.disabled = false;
-      score += newPlusDice.result1 + 1 + newPlusDice.result2 + 1;
-      scoreSectionInner.innerHTML = score;
-      newPlusDice.overlay.innerHTML = '';
 
-      for (let i = shopSectionInner.children.length; i--;) {
-        shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
+  buyNewDice.viewElement = document.createElement('div');
+  buyNewDice.viewElement.innerHTML = separator ? `⚅${separator}⚅` : '⚅';
+  buyNewDice.costElement = document.createElement('div');
+  buyNewDice.costElement.style.cssText = `
+    font: 16px monospace;
+    margin-left: auto;
+  `;
+  buyNewDice.costElement.innerHTML = `•${buyNewDice.cost}`;
+  buyNewDice.append(buyNewDice.viewElement, buyNewDice.costElement);
+  shopSectionInner.append(buyNewDice);
+  buyNewDice.new = () => {
+    const newDice = document.createElement('button');
+    newDice.style.cssText = `
+      display: flex;
+      align-items: center;
+      font: 32px system-ui;
+      padding: 2px 8px;
+      position: relative;
+      grid-column: span ${separator ? '2' : '1'};
+    `;
+    newDice.inner1 = document.createElement('div');
+    newDice.inner1.innerHTML = '⚅';
+    newDice.inner1.style.cssText = `
+      display: inline-block;
+      transition: .5s all;
+    `;
+    newDice.append(newDice.inner1);
+    if (separator) {
+      newDice.inner2 = document.createElement('div');
+      newDice.inner2.innerHTML = separator;
+      newDice.inner3 = document.createElement('div');
+      newDice.inner3.innerHTML = '⚅';
+      newDice.inner3.style.cssText = `
+        display: inline-block;
+        transition: .5s all;
+      `;
+      newDice.append(newDice.inner2, newDice.inner3);
+    }
+    newDice.overlay = document.createElement('div');
+    // 'red' uses reused characters so is < '#000', and the actual color
+    // doesn't matter because it's always an emoji with it's own colors
+    newDice.overlay.style.cssText = `
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      color: red;
+      font: 20px monospace;
+    `;
+    newDice.append(newDice.overlay);
+    newDice.onclick = () => {
+      newDice.disabled = true;
+      diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
+        newDice.result1 = ~~(Math.random() * 6); // It's 0-indexed
+        newDice.inner1.innerHTML = diceFaces[newDice.result1];
+        newDice.inner1.style.rotate = `${Math.random()}turn`;
+      }, 300 * i));
+      if (separator) {
+        diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
+          newDice.result2 = ~~(Math.random() * 6); // It's 0-indexed
+          newDice.inner3.innerHTML = diceFaces[newDice.result2];
+          newDice.inner3.style.rotate = `${Math.random()}turn`;
+        }, 300 * i));
       }
-    }, 4000);
+      setTimeout(() => {
+        newDice.disabled = false;
+        score += separator ? callback(newDice.result1 + 1, newDice.result2 + 1) : newDice.result1 + 1;
+        scoreSectionInner.innerHTML = `•${score}`;
+        newDice.overlay.innerHTML = '';
+        refreshShop();
+      }, 4000);
+    }
+    diceSectionInner.append(newDice);
   }
-  diceSectionInner.append(newPlusDice);
-};
+  buyNewDice.onclick = () => {
+    buyItem(buyNewDice);
+    buyNewDice.new();
+  };
 
-const buyNewPlusDice = document.createElement('button');
-buyNewPlusDice.cost = 30;
-buyNewPlusDice.style.cssText = `
-  display: flex;
-  justify-content: space-between;
-  padding: 2px 8px;
-`;
-buyNewPlusDice.viewElement = document.createElement('div');
-buyNewPlusDice.viewElement.innerHTML = '⚅+⚅';
-buyNewPlusDice.costElement = document.createElement('div');
-buyNewPlusDice.costElement.style.cssText = `
-  font: 1em monospace;
-`;
-buyNewPlusDice.costElement.innerHTML = buyNewPlusDice.cost;
-buyNewPlusDice.append (buyNewPlusDice.viewElement, buyNewPlusDice.costElement);
-buyNewPlusDice.onclick = () => {
-  score -= buyNewPlusDice.cost;
-  scoreSectionInner.innerHTML = score;
-  buyNewPlusDice.cost = ~~(buyNewPlusDice.cost**1.1);
-  buyNewPlusDice.costElement.innerHTML = buyNewPlusDice.cost;
-  for (let i = shopSectionInner.children.length; i--;) {
-    shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
-  }
-  addNewPlusDice();
+  return buyNewDice.new;
 }
-shopSectionInner.append(buyNewPlusDice);
+
+initDiceType(6)();
+
 
 const buyNewRat = document.createElement('button');
-buyNewRat.cost = 120;
-buyNewRat.innerHTML = `🐀 (${buyNewRat.cost})`;
+buyNewRat.cost = 30;
+buyNewRat.style.cssText = `
+  display: flex;
+  font: 32px system-ui;
+  padding: 2px 8px;
+`;
+buyNewRat.viewElement = document.createElement('div');
+buyNewRat.viewElement.innerHTML = '🐀';
+buyNewRat.costElement = document.createElement('div');
+buyNewRat.costElement.style.cssText = `
+  font: 16px monospace;
+  margin-left: auto;
+`;
+buyNewRat.costElement.innerHTML = `•${buyNewRat.cost}`;
+buyNewRat.append(buyNewRat.viewElement, buyNewRat.costElement);
 buyNewRat.onclick = () => {
-  score -= buyNewRat.cost;
-  scoreSectionInner.innerHTML = score;
-  buyNewRat.cost = ~~(buyNewRat.cost**1.1);
-  buyNewRat.innerHTML = `🐀 (${buyNewRat.cost})`;
-  for (let i = shopSectionInner.children.length; i--;) {
-    shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
-  }
+  buyItem(buyNewRat);
   const newRat = document.createElement('div');
+  newRat.style.cssText = `
+    display: grid;
+    font: 32px system-ui;
+    place-items: center;
+  `;
   newRat.innerHTML = '🐀';
   critterSectionInner.append(newRat);
-  setInterval(() => {
-    const activeDice = diceSectionInner.querySelectorAll('button:not([disabled])');
-    if (activeDice) {
+  const nudgeDice = () => {
+    const activeDice = [...diceSectionInner.children].filter(d => !d.disabled);
+    if (activeDice.length) {
       const autoRollDice = activeDice[~~(Math.random() * activeDice.length)];
       autoRollDice.overlay.innerHTML = '🐀';
       autoRollDice.click();
@@ -210,17 +203,19 @@ buyNewRat.onclick = () => {
         newRat.style.opacity = '';
       }, 4000);
     }
-  }, 8000);
+    setTimeout(nudgeDice, 8000);
+  };
+  setTimeout(nudgeDice, 800);
 }
 shopSectionInner.append(buyNewRat);
 
-for (let i = shopSectionInner.children.length; i--;) {
-  shopSectionInner.children[i].disabled = score < shopSectionInner.children[i].cost;
-}
+initDiceType(90, '+', (num1, num2) => num1 + num2);
 
-addNewDice();
+initDiceType(360, '×', (num1, num2) => num1 * num2);
 
+initDiceType(720, '^', (num1, num2) => num1 ** num2);
 
+refreshShop();
 // const testButton1 = document.createElement('button');
 // testButton1.innerHTML = '⚀🐀'
 // testButton1.style.font = '2em system-ui';
