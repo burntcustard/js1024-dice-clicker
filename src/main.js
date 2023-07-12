@@ -1,9 +1,10 @@
 let score = 0;
 
+// grid columns were repeat(3, auto) but repeating auto compresses better
 b.style.cssText = `
   display: inline-grid;
   font: 20px system-ui;
-  grid: auto-flow dense / repeat(3, auto);
+  grid: auto-flow dense / auto auto auto;
 `;
 
 const addUIElement = (name, rowHeight, colCount, colWidth) => {
@@ -22,12 +23,10 @@ const addUIElement = (name, rowHeight, colCount, colWidth) => {
   return inner;
 }
 
-const scoreElement = addUIElement('Score');
+const scoreElement = addUIElement('•');
 const diceElement = addUIElement('Dice', 48, 6, 48);
-const critterElement = addUIElement('Critters', 32, 4, 48);
+const critterElement = addUIElement('Rats', 32, 4, 48);
 const shopElement = addUIElement('Shop', 48, 1, 192);
-
-// const diceAnimationFrames = ['◩', '⬘', '⬔', '⬗', '◪', '⬙', '⬕', '⬖']; // Unused because wonky sizes and takes up more space(?)
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const addNewShopItem = (icon, cost, buyCallback) => {
@@ -53,7 +52,7 @@ const addNewShopItem = (icon, cost, buyCallback) => {
 
   item.onclick = () => {
     score -= item.cost;
-    scoreElement.innerHTML = `•${score}`;
+    scoreElement.innerHTML = score;
     item.cost = item.cost * 1.2 | 0; // Next time buying the item will be more expensive
     costElement.innerHTML = `•${item.cost}`;
     // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
@@ -107,8 +106,6 @@ const initDiceType = (
     // doesn't matter because it's always an emoji with it's own colors
     newDice.overlay.style.cssText = `
       position: absolute;
-      inset: auto 0 0 auto;
-      font: 20px monospace;
       color: red;
     `;
     newDice.append(newDice.overlay);
@@ -132,7 +129,7 @@ const initDiceType = (
       setTimeout(() => {
         newDice.disabled = false;
         score += separator ? diceCallback(newDice.result1 + 1, newDice.result2 + 1) : newDice.result1 + 1;
-        scoreElement.innerHTML = `•${score}`;
+        scoreElement.innerHTML = score;
         newDice.overlay.innerHTML = '';
         [...shopElement.children].filter((item) => item.disabled = score < item.cost);
       }, 4000);
@@ -156,9 +153,7 @@ addNewShopItem('🐀', 24, () => {
   const newRat = document.createElement('div');
 
   newRat.style.cssText = `
-    display: inline-grid;
     font: 32px system-ui;
-    place-items: center;
   `;
   newRat.innerHTML = '🐀';
   critterElement.append(newRat);

@@ -14,11 +14,12 @@ const options = {
     booleans_as_integers: true,
   },
   mangle: {
-   properties: {
-    keep_quoted: true,
-   },
+    properties: {
+      keep_quoted: true,
+    },
   },
   format: {
+    keep_numbers: true,
     wrap_func_args: false,
   },
 };
