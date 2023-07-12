@@ -32,8 +32,10 @@ const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const addNewShopItem = (icon, cost, buyCallback) => {
   const item = document.createElement('button');
+  const costElement = document.createElement('div');
 
   item.cost = cost;
+
   // Position sticky not needed but repeats with newDice cssText
   item.style.cssText = `
     display: flex;
@@ -42,21 +44,18 @@ const addNewShopItem = (icon, cost, buyCallback) => {
     position: sticky;
     align-items: end;
   `;
-  item.viewElement = document.createElement('div');
-  item.viewElement.innerHTML = icon;
-  item.costElement = document.createElement('div');
-  item.costElement.style.cssText = `
+  costElement.style.cssText = `
     font: 16px monospace;
     margin-left: auto;
   `;
-  item.costElement.innerHTML = `•${item.cost}`;
-  item.append(item.viewElement, item.costElement);
+  costElement.innerHTML = `•${item.cost}`;
+  item.append(icon, costElement);
 
   item.onclick = () => {
     score -= item.cost;
     scoreElement.innerHTML = `•${score}`;
     item.cost = item.cost * 1.2 | 0; // Next time buying the item will be more expensive
-    item.costElement.innerHTML = `•${item.cost}`;
+    costElement.innerHTML = `•${item.cost}`;
     // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
     [...shopElement.children].filter((item) => item.disabled = score < item.cost);
     buyCallback();
@@ -175,7 +174,7 @@ addNewShopItem('🐀', 24, () => {
       newRat.style.opacity = .5;
 
       setTimeout(() => {
-        newRat.style.opacity = '';
+        newRat.style.opacity = 1;
       }, 4000);
     }
 
