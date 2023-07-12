@@ -1,12 +1,5 @@
 let score = 0;
 
-// grid columns were repeat(3, auto) but repeating auto compresses better
-b.style.cssText = `
-  display: inline-grid;
-  font: 20px system-ui;
-  grid: auto-flow dense / auto auto auto;
-`;
-
 const addUIElement = (name, rowHeight, colCount, colWidth) => {
   const section = document.createElement('fieldset');
   const label = document.createElement('legend');
@@ -144,6 +137,13 @@ const initDiceType = (
 
   return addNewDice;
 };
+
+// grid columns were repeat(3, auto) but repeating auto compresses better
+b.style.cssText = `
+  display: inline-grid;
+  font: 20px system-ui;
+  grid: auto-flow dense / auto auto auto;
+`;
 
 initDiceType(6)();
 
