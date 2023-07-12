@@ -48,7 +48,7 @@ const addNewShopItem = (icon, cost, buyCallback) => {
     item.cost = item.cost * 1.2 | 0; // Next time buying the item will be more expensive
     costElement.innerHTML = `•${item.cost}`;
     // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
-    [...shopElement.children].filter((item) => item.disabled = score < item.cost);
+    [...shopElement.children].filter(item => item.disabled = score < item.cost);
     buyCallback();
   }
 
@@ -122,7 +122,7 @@ const initDiceType = (
         score += separator ? diceCallback(newDice.result1 + 1, newDice.result2 + 1) : newDice.result1 + 1;
         scoreElement.innerHTML = score;
         newDice.overlay.innerHTML = '';
-        [...shopElement.children].filter((item) => item.disabled = score < item.cost);
+        [...shopElement.children].filter(item => item.disabled = score < item.cost);
       }, 4000);
     }
 
@@ -186,4 +186,4 @@ initDiceType(1080, '^', (num1, num2) => num1 ** num2);
 scoreElement.innerHTML = score;
 
 // We could set all items to initially disabled, but this is repeated code
-[...shopElement.children].filter((item) => item.disabled = score < item.cost);
+[...shopElement.children].filter(item => item.disabled = score < item.cost);
