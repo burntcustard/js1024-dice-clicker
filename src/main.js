@@ -57,7 +57,7 @@ const addNewShopItem = (icon, cost, buyCallback) => {
   item.onclick = () => {
     score -= item.cost;
     scoreSectionInner.innerHTML = `•${score}`;
-    item.cost = ~~(item.cost*1.2);
+    item.cost = item.cost * 1.2 | 0;
     item.costElement.innerHTML = `•${item.cost}`;
     // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
     [...shopSectionInner.children].filter((item) => item.disabled = score < item.cost);
@@ -120,14 +120,14 @@ const initDiceType = (
       newDice.disabled = true;
 
       diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
-        newDice.result1 = ~~(Math.random() * 6); // It's 0-indexed
+        newDice.result1 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
         newDice.inner1.innerHTML = diceFaces[newDice.result1];
         newDice.inner1.style.rotate = `${Math.random()}turn`;
       }, 300 * i));
 
       if (separator) {
         diceFaces.concat(diceFaces).forEach((_, i) => setTimeout(() => {
-          newDice.result2 = ~~(Math.random() * 6); // It's 0-indexed
+          newDice.result2 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
           newDice.inner3.innerHTML = diceFaces[newDice.result2];
           newDice.inner3.style.rotate = `${Math.random()}turn`;
         }, 300 * i));
@@ -170,7 +170,7 @@ addNewShopItem('🐀', 24, () => {
     const activeDice = [...diceSectionInner.children].filter(d => !d.disabled);
 
     if (activeDice.length) {
-      const autoRollDice = activeDice[~~(Math.random() * activeDice.length)];
+      const autoRollDice = activeDice[Math.random() * activeDice.length | 0]; // |0 to round down
 
       autoRollDice.overlay.innerHTML = '🐀';
       autoRollDice.click();
