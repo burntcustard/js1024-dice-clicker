@@ -41,10 +41,12 @@ const addNewShopItem = (icon, cost, buyCallback) => {
   const item = document.createElement('button');
 
   item.cost = cost;
+  // Position sticky not needed but repeats with newDice cssText
   item.style.cssText = `
     display: flex;
     font: 32px system-ui;
     padding: 2px 8px;
+    position: sticky;
     align-items: end;
   `;
   item.viewElement = document.createElement('div');
@@ -81,10 +83,10 @@ const initDiceType = (
       // separator?.length + 1 is 1 or 2 (false + 1 = 1)
     newDice.style.cssText = `
       display: flex;
-      align-items: center;
       font: 32px system-ui;
       padding: 2px 8px;
       position: sticky;
+      align-items: center;
       grid-column: span ${separator?.length + 1};
     `;
     newDice.inner1 = document.createElement('div');
@@ -111,10 +113,10 @@ const initDiceType = (
     // 'red' uses reused characters so is < '#000', and the actual color
     // doesn't matter because it's always an emoji with it's own colors
     newDice.overlay.style.cssText = `
-      color: red;
       position: absolute;
       inset: auto 0 0 auto;
       font: 20px monospace;
+      color: red;
     `;
     newDice.append(newDice.overlay);
 
@@ -142,6 +144,7 @@ const initDiceType = (
         refreshShop();
       }, 4000);
     }
+
     diceSectionInner.append(newDice);
   };
 
@@ -181,6 +184,7 @@ addNewShopItem('🐀', 24, () => {
         newRat.style.opacity = '';
       }, 4000);
     }
+
     setTimeout(nudgeDice, 8000);
   };
   setTimeout(nudgeDice, 800);
