@@ -52,16 +52,16 @@ js = js
   const minifiedJs = await minifyJs(js, options);
 
   const code = minifiedJs.code
-  .replace('let e=', 'e=')
+  .replace('let t=', 't=')
   // Replace all double quotes with backticks for consistency
   .replaceAll('"', '`')
   // Remove final semicolon
   .replace(/;$/, '');
 
 const packed = cmdRegPack(code, {
-  crushGainFactor: parseFloat(2),
-  crushLengthFactor: parseFloat(1),
-  crushCopiesFactor: parseFloat(1),
+  crushGainFactor: parseFloat(1),
+  crushLengthFactor: parseFloat(0),
+  crushCopiesFactor: parseFloat(0),
 });
 
 const html = readFileSync('src/index.html', 'utf8');
