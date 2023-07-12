@@ -150,12 +150,6 @@ initDiceType(6)();
 addNewShopItem('🐀', 24, () => {
   const newRat = document.createElement('div');
 
-  newRat.style.cssText = `
-    font: 32px system-ui;
-  `;
-  newRat.innerHTML = '🐀';
-  critterElement.append(newRat);
-
   const nudgeDice = () => {
     const activeDice = [...diceElement.children].filter(d => !d.disabled);
 
@@ -173,6 +167,13 @@ addNewShopItem('🐀', 24, () => {
 
     setTimeout(nudgeDice, 8000);
   };
+
+  newRat.style.cssText = `
+    font: 32px system-ui;
+  `;
+  newRat.innerHTML = '🐀';
+  critterElement.append(newRat);
+
   setTimeout(nudgeDice, 800);
 });
 
