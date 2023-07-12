@@ -52,7 +52,7 @@ js = js
   const minifiedJs = await minifyJs(js, options);
 
   const code = minifiedJs.code
-  // .replace('let t=', 't=')
+  .replace('let e=', 'e=')
   // Replace all double quotes with backticks for consistency
   .replaceAll('"', '`')
   // Remove final semicolon
