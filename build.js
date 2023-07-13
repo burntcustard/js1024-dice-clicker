@@ -60,8 +60,8 @@ js = js
   .replace(/;$/, '');
 
 const packed = cmdRegPack(code, {
-  crushGainFactor: parseFloat(3),
-  crushLengthFactor: parseFloat(1),
+  crushGainFactor: parseFloat(1),
+  crushLengthFactor: parseFloat(0),
   crushCopiesFactor: parseFloat(0),
 });
 
