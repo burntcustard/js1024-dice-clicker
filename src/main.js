@@ -75,7 +75,7 @@ const initDiceType = (
     `;
     newDice.inner1 = document.createElement('div');
     newDice.inner2 = document.createElement('div');
-    newDice.inner1.innerHTML = newDice.inner2.innerHTML = '⚅';
+    newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
     newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
       display: inline-grid;
       transition: .5s all;
@@ -120,7 +120,7 @@ const initDiceType = (
   };
 
   addNewShopItem(
-    separator ? `⚅${separator}⚅` : '⚅',
+    separator ? diceFaces[5] + separator + diceFaces[5] : diceFaces[5],
     cost,
     addNewDice
   );
