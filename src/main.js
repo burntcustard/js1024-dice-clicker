@@ -170,7 +170,7 @@ initDiceType(60, (num1, num2) => num1 + num2, '+');
 
 initDiceType(360, (num1, num2) => num1 * num2, '×');
 
-initDiceType(1080, (num1, num2) => num1 ** num2, '^');
+initDiceType(1000, (num1, num2) => num1 ** num2, '^');
 
 scoreElement.innerHTML = score;
 
