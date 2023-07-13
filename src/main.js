@@ -18,7 +18,7 @@ const addUIElement = (name, rowHeight, colCount, colWidth) => {
 const scoreElement = addUIElement('•');
 const diceElement = addUIElement('Dice', 48, 6, 48);
 const critterElement = addUIElement('Rats', 32, 4, 48);
-const shopElement = addUIElement('Shop', 48, 1, 192);
+const shopElement = addUIElement('Shop', 48, 1, 160);
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const addNewShopItem = (icon, cost, buyCallback) => {
