@@ -4,7 +4,10 @@ const addUIElement = (name, rowHeight, colCount, colWidth) => {
   const section = document.createElement('fieldset');
   const label = document.createElement('legend');
   const inner = document.createElement('div');
-  section.style.cssText = !rowHeight && 'grid-column:1/-1';
+
+   // `!rowHeight && 'grid-columns...'` makes more sense, but using rowHeight as invalid CSS is shorter
+  section.style.cssText = rowHeight || 'grid-column:1/-1';
+
   section.append(label, inner);
   inner.style.cssText = `
     display: inline-grid;
@@ -12,6 +15,7 @@ const addUIElement = (name, rowHeight, colCount, colWidth) => {
   `;
   label.innerHTML = name;
   b.append(section);
+
   return inner;
 }
 
@@ -85,7 +89,8 @@ const initDiceType = (
 
     newDice.overlay = document.createElement('div');
     // 'red' uses reused characters so is < '#000', and the actual color
-    // doesn't matter because it's always an emoji with it's own colors
+    // doesn't matter because it's always an emoji with it's own colors.
+    // We need a color to override browser default high-opacity text.
     newDice.overlay.style.cssText = `
       position: absolute;
       color: red;
