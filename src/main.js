@@ -100,15 +100,17 @@ const initDiceType = (
     newDice.onclick = () => {
       newDice.disabled = true;
 
-      diceFaces.concat(diceFaces).map((_, i) => setTimeout(() => {
-        newDice.result1 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
-        newDice.inner1.innerHTML = diceFaces[newDice.result1];
-        newDice.inner1.style.rotate = `${Math.random()}turn`;
+      for (let i = 9; i--;) {
+        setTimeout(() => {
+          newDice.result1 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
+          newDice.inner1.innerHTML = diceFaces[newDice.result1];
+          newDice.inner1.style.rotate = `${Math.random()}turn`;
 
-        newDice.result2 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
-        newDice.inner2.innerHTML = diceFaces[newDice.result2];
-        newDice.inner2.style.rotate = `${Math.random()}turn`;
-      }, 300 * i));
+          newDice.result2 = Math.random() * 6 | 0; // 0-indexed, with |0 to round down
+          newDice.inner2.innerHTML = diceFaces[newDice.result2];
+          newDice.inner2.style.rotate = `${Math.random()}turn`;
+        }, 380 * i);
+      }
 
       setTimeout(() => {
         newDice.disabled = false;
