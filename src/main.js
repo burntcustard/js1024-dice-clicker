@@ -74,19 +74,13 @@ const initDiceType = (
       grid-column: span ${separator?.length + 1};
     `;
     newDice.inner1 = document.createElement('div');
-    newDice.inner1.innerHTML = '⚅';
-    newDice.inner1.style.cssText = `
+    newDice.inner2 = document.createElement('div');
+    newDice.inner1.innerHTML = newDice.inner2.innerHTML = '⚅';
+    newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
       display: inline-grid;
       transition: .5s all;
     `;
     newDice.append(newDice.inner1);
-
-    newDice.inner2 = document.createElement('div');
-    newDice.inner2.innerHTML = '⚅';
-    newDice.inner2.style.cssText = `
-      display: inline-grid;
-      transition: .5s all;
-    `;
     separator && newDice.append(separator, newDice.inner2);
 
     newDice.overlay = document.createElement('div');
