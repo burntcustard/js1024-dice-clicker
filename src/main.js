@@ -77,17 +77,9 @@ const initDiceType = (
       align-items: center;
       grid-column: span ${separator ? 2 : 1};
     `;
+    newDice.overlay = document.createElement('div');
     newDice.inner1 = document.createElement('div');
     newDice.inner2 = document.createElement('div');
-    newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
-    newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
-      display: inline-grid;
-      transition: .5s all;
-    `;
-    newDice.append(newDice.inner1);
-    separator && newDice.append(separator, newDice.inner2);
-
-    newDice.overlay = document.createElement('div');
     // 'red' uses reused characters so is < '#000', and the actual color
     // doesn't matter because it's always an emoji with it's own colors.
     // We need a color to override browser default high-opacity text.
@@ -95,7 +87,15 @@ const initDiceType = (
       position: absolute;
       color: red;
     `;
-    newDice.append(newDice.overlay);
+    newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
+    newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
+      display: inline-grid;
+      transition: .5s all;
+    `;
+
+    // position: absolute means the overlay will end up stacked on top no matter the append() order
+    newDice.append(newDice.overlay, newDice.inner1);
+    separator && newDice.append(separator, newDice.inner2);
 
     newDice.onclick = () => {
       newDice.disabled = true;
@@ -169,7 +169,7 @@ addNewShopItem('🐀', 24, () => {
   newRat.innerHTML = '🐀';
   critterElement.append(newRat);
 
-  setTimeout(nudgeDice, 800);
+  setTimeout(nudgeDice, 1000);
 });
 
 initDiceType(60, '+', (num1, num2) => num1 + num2);
