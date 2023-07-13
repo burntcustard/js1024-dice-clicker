@@ -97,6 +97,8 @@ const initDiceType = (
     newDice.append(newDice.overlay, newDice.inner1);
     separator && newDice.append(separator, newDice.inner2);
 
+    diceElement.append(newDice);
+
     newDice.onclick = () => {
       for (let i = 9; i--;) {
         setTimeout(() => {
@@ -119,8 +121,6 @@ const initDiceType = (
         [...shopElement.children].filter(item => item.disabled = score < item.cost);
       }, 4000);
     }
-
-    diceElement.append(newDice);
   };
 
   addNewShopItem(
