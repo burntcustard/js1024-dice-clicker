@@ -134,7 +134,7 @@ b.style.cssText = `
   grid: auto-flow dense / auto auto auto;
 `;
 
-initDiceType(6, num1 => num1)();
+initDiceType(6, (num1, num2) => num1)();
 
 addNewShopItem('🐀', 24, () => {
   const newRat = document.createElement('div');
