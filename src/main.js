@@ -15,7 +15,7 @@ const addUIElement = (rowHeight, colCount, colWidth) => {
 }
 
 const scoreElement = addUIElement();
-const diceElement = addUIElement(48, 6, 48);
+const diceElement = addUIElement(48, 4, 48);
 const critterElement = addUIElement(32, 4, 48);
 const shopElement = addUIElement(48, 1, 160);
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
