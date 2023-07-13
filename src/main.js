@@ -4,8 +4,8 @@ const addUIElement = (rowHeight, colCount, colWidth) => {
   const section = document.createElement('fieldset');
 
   section.style.cssText = `
-    margin: 2px;
     display: inline-grid;
+    margin: 2px;
     grid: auto-flow dense ${rowHeight}px / repeat(${colCount}, ${colWidth}px);
     ${rowHeight || 'grid-column:1/-1'}
   `;
