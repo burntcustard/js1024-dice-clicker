@@ -1,28 +1,23 @@
 let score = 0;
 
-const addUIElement = (name, rowHeight, colCount, colWidth) => {
+const addUIElement = (rowHeight, colCount, colWidth) => {
   const section = document.createElement('fieldset');
-  const label = document.createElement('legend');
-  const inner = document.createElement('div');
 
-   // `!rowHeight && 'grid-columns...'` makes more sense, but using rowHeight as invalid CSS is shorter
-  section.style.cssText = rowHeight || 'grid-column:1/-1';
-
-  section.append(label, inner);
-  inner.style.cssText = `
+  section.style.cssText = `
+    margin: 2px;
     display: inline-grid;
     grid: auto-flow dense ${rowHeight}px / repeat(${colCount}, ${colWidth}px);
+    ${rowHeight || 'grid-column:1/-1'}
   `;
-  label.innerHTML = name;
   b.append(section);
 
-  return inner;
+  return section;
 }
 
-const scoreElement = addUIElement('•');
-const diceElement = addUIElement('Dice', 48, 6, 48);
-const critterElement = addUIElement('Rats', 32, 4, 48);
-const shopElement = addUIElement('Shop', 48, 1, 160);
+const scoreElement = addUIElement();
+const diceElement = addUIElement(48, 6, 48);
+const critterElement = addUIElement(32, 4, 48);
+const shopElement = addUIElement(48, 1, 160);
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const addNewShopItem = (icon, cost, buyCallback) => {
