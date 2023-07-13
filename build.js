@@ -19,7 +19,7 @@ const options = {
     },
   },
   format: {
-    keep_numbers: true,
+    // keep_numbers: true,
     wrap_func_args: false,
   },
 };
