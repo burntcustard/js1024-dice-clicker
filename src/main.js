@@ -56,8 +56,8 @@ const addNewShopItem = (icon, cost, buyCallback) => {
 
 const initDiceType = (
   cost,
-  separator,
   diceCallback,
+  separator,
 ) => {
   const addNewDice = () => {
     const newDice = document.createElement('button');
@@ -110,7 +110,7 @@ const initDiceType = (
 
       setTimeout(() => {
         newDice.disabled = false;
-        score += separator ? diceCallback(newDice.result1 + 1, newDice.result2 + 1) : newDice.result1 + 1;
+        score += diceCallback(newDice.result1 + 1, newDice.result2 + 1);
         scoreElement.innerHTML = score;
         newDice.overlay.innerHTML = '';
         [...shopElement.children].filter(item => item.disabled = score < item.cost);
@@ -134,7 +134,7 @@ b.style.cssText = `
   grid: auto-flow dense / auto auto auto;
 `;
 
-initDiceType(6)();
+initDiceType(6, num1 => num1)();
 
 addNewShopItem('🐀', 24, () => {
   const newRat = document.createElement('div');
@@ -166,11 +166,11 @@ addNewShopItem('🐀', 24, () => {
   setTimeout(nudgeDice, 1000);
 });
 
-initDiceType(60, '+', (num1, num2) => num1 + num2);
+initDiceType(60, (num1, num2) => num1 + num2, '+');
 
-initDiceType(360, '×', (num1, num2) => num1 * num2);
+initDiceType(360, (num1, num2) => num1 * num2, '×');
 
-initDiceType(1080, '^', (num1, num2) => num1 ** num2);
+initDiceType(1080, (num1, num2) => num1 ** num2, '^');
 
 scoreElement.innerHTML = score;
 
