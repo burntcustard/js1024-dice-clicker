@@ -75,7 +75,7 @@ const initDiceType = (
       padding: 2px 8px;
       position: sticky;
       align-items: center;
-      grid-column: span ${separator?.length + 1};
+      grid-column: span ${separator ? 2 : 1};
     `;
     newDice.inner1 = document.createElement('div');
     newDice.inner2 = document.createElement('div');
