@@ -21,7 +21,7 @@ const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const addNewShopItem = (icon, cost, buyCallback) => {
   const item = document.createElement('button');
-  const costElement = document.createElement('div');
+  const costElement = document.createElement('p');
 
   item.cost = cost;
 
@@ -71,9 +71,9 @@ const initDiceType = (
       align-items: center;
       grid-column: span ${separator ? 2 : 1};
     `;
-    newDice.overlay = document.createElement('div');
-    newDice.inner1 = document.createElement('div');
-    newDice.inner2 = document.createElement('div');
+    newDice.overlay = document.createElement('p');
+    newDice.inner1 = document.createElement('p');
+    newDice.inner2 = document.createElement('p');
     // 'red' uses reused characters so is < '#000', and the actual color
     // doesn't matter because it's always an emoji with it's own colors.
     // We need a color to override browser default high-opacity text.
@@ -136,7 +136,7 @@ b.style.cssText = `
 initDiceType(6, (num1, num2) => num1)();
 
 addNewShopItem('🐀', 24, () => {
-  const newRat = document.createElement('div');
+  const newRat = document.createElement('p');
 
   const nudgeDice = () => {
     const activeDice = [...diceElement.children].filter(d => !d.disabled);
