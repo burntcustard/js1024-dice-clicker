@@ -129,7 +129,6 @@ const initDiceType = (
 b.style.cssText = `
   display: inline-grid;
   font: 20px system-ui;
-  grid: auto-flow dense / auto auto auto;
 `;
 
 initDiceType(6, (num1, num2) => num1)();
