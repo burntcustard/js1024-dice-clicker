@@ -103,8 +103,7 @@ const initDiceType = (
       }
 
       setTimeout(() => {
-        score += diceCallback(newDice.result1 + 1, newDice.result2 + 1);
-        scoreElement.innerHTML = score;
+        scoreElement.innerHTML = score += diceCallback(newDice.result1 + 1, newDice.result2 + 1);
         newDice.overlay.innerHTML = '';
         [...shopElement.children].filter(item => item.disabled = score < item.cost);
         newDice.disabled = false;
