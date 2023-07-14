@@ -63,7 +63,7 @@ const initDiceType = (
       font: 32px system-ui;
       padding: 2px 8px;
       position: sticky;
-      align-items: center;
+      align-items: end;
       grid-column: span ${separator && 2};
     `;
     newDice.overlay = document.createElement('div');
