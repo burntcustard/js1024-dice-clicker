@@ -108,11 +108,11 @@ const initDiceType = (
       }
 
       setTimeout(() => {
-        newDice.disabled = false;
         score += diceCallback(newDice.result1 + 1, newDice.result2 + 1);
         scoreElement.innerHTML = score;
         newDice.overlay.innerHTML = '';
         [...shopElement.children].filter(item => item.disabled = score < item.cost);
+        newDice.disabled = false;
       }, 4000);
     }
   };
