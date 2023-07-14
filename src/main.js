@@ -128,7 +128,7 @@ b.style.cssText = `
 
 initDiceType(6, (num1, num2) => num1)();
 
-addNewShopItem('🐀', 24, () => {
+addNewShopItem('🐀', 30, () => {
   const newRat = document.createElement('div');
 
   const nudgeDice = () => {
@@ -160,9 +160,9 @@ addNewShopItem('🐀', 24, () => {
 
 initDiceType(60, (num1, num2) => num1 + num2, '+');
 
-initDiceType(360, (num1, num2) => num1 * num2, '×');
+initDiceType(600, (num1, num2) => num1 * num2, '×');
 
-initDiceType(1000, (num1, num2) => num1 ** num2, '^');
+initDiceType(6000, (num1, num2) => num1 ** num2, '^');
 
 scoreElement.innerHTML = score;
 
