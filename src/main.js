@@ -84,7 +84,7 @@ const initDiceType = (
     newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
     newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
       display: inline-grid;
-      transition: .5s all;
+      transition: all.5s;
     `;
 
     // position: absolute means the overlay will end up stacked on top no matter the append() order
