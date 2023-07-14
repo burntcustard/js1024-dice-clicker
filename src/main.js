@@ -61,7 +61,7 @@ const initDiceType = (
   const addNewDice = () => {
     const newDice = document.createElement('button');
 
-    // position: sticky is used in place of relative but saves 2B
+    // position: sticky is used in place of relative to save 2B
     newDice.style.cssText = `
       display: flex;
       font: 32px system-ui;
