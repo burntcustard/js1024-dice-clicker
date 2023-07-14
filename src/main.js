@@ -135,7 +135,7 @@ addNewShopItem('🐀', 24, () => {
     const activeDice = [...diceElement.children].filter(d => !d.disabled);
 
     if (activeDice.length) {
-      const autoRollDice = activeDice[Math.random() * activeDice.length | 0]; // |0 to round down
+      const autoRollDice = activeDice[activeDice.length * Math.random() | 0]; // |0 to round down
 
       autoRollDice.overlay.innerHTML = '🐀';
       autoRollDice.click();
