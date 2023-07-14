@@ -1,23 +1,22 @@
 let score = 0;
 
-const addUIElement = (rowHeight, colCount, colWidth) => {
+const addUIElement = (gridInfo) => {
   const section = document.createElement('fieldset');
 
   section.style.cssText = `
     display: inline-grid;
     margin: 2px;
-    grid: auto-flow dense ${rowHeight}px / repeat(${colCount}, ${colWidth}px);
-    ${rowHeight || 'grid-column:1/-1'}
+    ${gridInfo}
   `;
   b.append(section);
 
   return section;
 }
 
-const scoreElement = addUIElement();
-const diceElement = addUIElement(48, 4, 48);
-const critterElement = addUIElement(32, 4, 48);
-const shopElement = addUIElement(48, 1, 160);
+const scoreElement = addUIElement('grid-column:1/4'); // 1/-1 better but +1B
+const diceElement = addUIElement('grid:auto-flow dense 48px/repeat(4,48px');
+const critterElement = addUIElement('grid:auto-flow dense 32px/repeat(4,48px');
+const shopElement = addUIElement('grid:auto-flow dense 48px/repeat(1,160px');
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const addNewShopItem = (icon, cost, buyCallback) => {
