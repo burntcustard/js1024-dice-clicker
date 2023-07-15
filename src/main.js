@@ -33,7 +33,7 @@ const addNewShopItem = (cost, buyCallback, icon) => {
     align-items: end;
   `;
   costElement.style.cssText = `
-    font: 14px system-ui;
+    font: 12px system-ui;
     margin-left: auto;
   `;
   costElement.innerHTML = item.cost = cost;
@@ -124,7 +124,6 @@ const initDiceType = (
   return addNewDice;
 };
 
-// grid columns were repeat(3, auto) but repeating auto compresses better
 b.style.cssText = `
   display: inline-grid;
 `;
