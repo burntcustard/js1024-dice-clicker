@@ -29,19 +29,19 @@ let js = readFileSync('src/main.js', 'utf8');
 // Some custom mangling of JS to assist / work around Terser
 js = js
   // Minify CSS template literals
-  .replace(/`[^`]+`/g, tag => tag
-    .replace(/`\s+/, '`')  // Remove newlines & spaces at start or string
-    .replace(/\n\s+/g, '') // Remove newlines & spaces within values
-    .replace(/:\s/g, ':')  // Remove spaces in between property & values
-    .replace(/\,\s/g, ',') // Remove space after commas
-    .replace(/(%) ([\d$])/g, '$1$2') // Remove space between '100% 50%' in hwb()
-    .replace(/\s\/\s/g, '/') // Remove spaces around `/` in hsl
-    .replace(/;\s+/g, ';') // Remove newlines & spaces after semicolons
-    .replace(/\)\s/g, ')') // Remove spaces after closing brackets
-    .replace(/;`/, '`') // Remove final semicolons (dangerous)
-  )
+  // .replace(/`[^`]+`/g, tag => tag
+  //   .replace(/`\s+/, '`')  // Remove newlines & spaces at start or string
+  //   .replace(/\n\s+/g, '') // Remove newlines & spaces within values
+  //   .replace(/:\s/g, ':')  // Remove spaces in between property & values
+  //   .replace(/\,\s/g, ',') // Remove space after commas
+  //   .replace(/(%) ([\d$])/g, '$1$2') // Remove space between '100% 50%' in hwb()
+  //   .replace(/\s\/\s/g, '/') // Remove spaces around `/` in hsl
+  //   .replace(/;\s+/g, ';') // Remove newlines & spaces after semicolons
+  //   .replace(/\)\s/g, ')') // Remove spaces after closing brackets
+  //   .replace(/;`/, '`') // Remove final semicolons (dangerous)
+  // )
   // createElement('div') -> createElement`div`
-  .replace(/createElement\('([^']+)'\)/g, 'createElement`$1`')
+  // .replace(/createElement\('([^']+)'\)/g, 'createElement`$1`')
   // // Replace slices global vars with single letter non-declared versions
   // .replaceAll(/(const\s)?board/g, 'm')
   // Replace const with let declartion
@@ -55,7 +55,7 @@ js = js
   const code = minifiedJs.code
   .replace('let t=', 't=')
   // Replace all double quotes with backticks for consistency
-  .replaceAll('"', '`')
+  // .replaceAll('"', '`')
   // Remove final semicolon
   .replace(/;$/, '');
 

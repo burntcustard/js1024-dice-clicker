@@ -1,14 +1,9 @@
-let score = 1000;
+let score = 0;
 
 const addUIElement = (gridInfo) => {
   const section = document.createElement('fieldset');
 
-  section.style.cssText = `
-    display: inline-grid;
-    font: 32px system-ui;
-    margin: 2px;
-    ${gridInfo}
-  `;
+  section.style.cssText = `display:inline-grid;font:32px system-ui;margin:2px;${gridInfo}`;
   b.append(section);
 
   return section;
@@ -25,13 +20,8 @@ const addNewShopItem = (cost, buyCallback, icon) => {
   const costElement = document.createElement('div');
 
   // Position sticky not needed but repeats with newDice cssText
-  item.style.cssText = `
-    font: 32px system-ui;
-    padding: 2px 8px;
-  `;
-  costElement.style.cssText = `
-    font: 12px system-ui;
-  `;
+  item.style.cssText = 'font:32px system-ui';
+  costElement.style.cssText = 'font:12px system-ui';
   costElement.innerHTML = item.cost = cost;
   item.append(icon, costElement);
 
@@ -62,27 +52,16 @@ const initDiceType = (
       const newDice = document.createElement('button');
 
       // position: sticky is used in place of relative to save 2B
-      newDice.style.cssText = `
-        display: flex;
-        font: 32px system-ui;
-        padding: 2px 8px;
-        ${separator && 'grid-column:span 2'};
-      `;
+      newDice.style.cssText = `display:flex;font:32px system-ui;padding:2px 8px;${separator && 'grid-column:span 2'}`;
       newDice.overlay = document.createElement('div');
       newDice.inner1 = document.createElement('div');
       newDice.inner2 = document.createElement('div');
       // 'red' uses reused characters so is < '#000', and the actual color
       // doesn't matter because it's always an emoji with it's own colors.
       // We need a color to override browser default high-opacity text.
-      newDice.overlay.style.cssText = `
-        color: red;
-        margin-left: -32px;
-      `;
+      newDice.overlay.style.cssText = `font:32px system-ui;margin:0-32px;color:red`;
       newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
-      newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
-        display: inline-grid;
-        transition: all.5s;
-      `;
+      newDice.inner1.style.cssText = newDice.inner2.style.cssText = `display:inline-grid;transition:all.5s`;
 
       // position: absolute means the overlay will end up stacked on top no matter the append() order
       newDice.append(newDice.inner1);
@@ -117,9 +96,7 @@ const initDiceType = (
   );
 };
 
-b.style.cssText = `
-  display: inline-grid;
-`;
+b.style.cssText = `display:inline-grid`;
 
 initDiceType(6, (num1, num2) => num1)();
 
@@ -152,9 +129,9 @@ addNewShopItem(30, () => {
 
 initDiceType(60, (num1, num2) => num1 + num2, '+');
 
-initDiceType(300, (num1, num2) => num1 * num2, '×');
+initDiceType(600, (num1, num2) => num1 * num2, '*');
 
-initDiceType(3000, (num1, num2) => num1 ** num2, '^');
+initDiceType(6000, (num1, num2) => num1 ** num2, '^');
 
 scoreElement.innerHTML = score;
 
