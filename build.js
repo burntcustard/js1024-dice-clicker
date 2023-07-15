@@ -38,7 +38,7 @@ js = js
     .replace(/\s\/\s/g, '/') // Remove spaces around `/` in hsl
     .replace(/;\s+/g, ';') // Remove newlines & spaces after semicolons
     .replace(/\)\s/g, ')') // Remove spaces after closing brackets
-    .replace(/;`/, '`') // Remove final semicolons
+    .replace(/;`/, '`') // Remove final semicolons (dangerous)
   )
   // createElement('div') -> createElement`div`
   .replace(/createElement\('([^']+)'\)/g, 'createElement`$1`')

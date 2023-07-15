@@ -51,6 +51,8 @@ const addNewShopItem = (cost, buyCallback, icon) => {
   }
 
   shopElement.append(item);
+
+  return buyCallback;
 };
 
 const initDiceType = (
@@ -58,70 +60,66 @@ const initDiceType = (
   diceCallback,
   separator,
 ) => {
-  const addNewDice = () => {
-    const newDice = document.createElement('button');
-
-    // position: sticky is used in place of relative to save 2B
-    newDice.style.cssText = `
-      display: flex;
-      font: 32px system-ui;
-      padding: 2px 8px;
-      position: sticky;
-      align-items: end;
-      grid-column: span ${separator && 2};
-    `;
-    newDice.overlay = document.createElement('div');
-    newDice.inner1 = document.createElement('div');
-    newDice.inner2 = document.createElement('div');
-    // 'red' uses reused characters so is < '#000', and the actual color
-    // doesn't matter because it's always an emoji with it's own colors.
-    // We need a color to override browser default high-opacity text.
-    newDice.overlay.style.cssText = `
-      position: absolute;
-      color: red;
-    `;
-    newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
-    newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
-      display: inline-grid;
-      transition: all.5s;
-    `;
-
-    // position: absolute means the overlay will end up stacked on top no matter the append() order
-    newDice.append(newDice.overlay, newDice.inner1);
-    separator && newDice.append(separator, newDice.inner2);
-
-    diceElement.append(newDice);
-
-    newDice.onclick = () => {
-      for (let i = 9; i--;) {
-        setTimeout(() => {
-          newDice.result1 = Math.random() * 6 | 0; // 0-indexed, |0 to round down
-          newDice.inner1.innerHTML = diceFaces[newDice.result1];
-          newDice.inner1.style.rotate = `${Math.random()}turn`;
-
-          newDice.result2 = Math.random() * 6 | 0; // 0-indexed, |0 to round down
-          newDice.inner2.innerHTML = diceFaces[newDice.result2];
-          newDice.inner2.style.rotate = `${Math.random()}turn`;
-        }, 380 * i);
-        newDice.disabled = true; // Should be before the loop, but in here saves 1B
-      }
-
-      setTimeout(() => {
-        scoreElement.innerHTML = score += diceCallback(newDice.result1 + 1, newDice.result2 + 1);
-        newDice.overlay.innerHTML = '';
-        [...shopElement.children].filter(item => item.disabled = score < item.cost);
-        newDice.disabled = false;
-      }, 4000);
-    }
-  };
-
-  addNewShopItem(
+  return addNewShopItem(
     cost,
-    addNewDice,
+    () => {
+      const newDice = document.createElement('button');
+
+      // position: sticky is used in place of relative to save 2B
+      newDice.style.cssText = `
+        display: flex;
+        font: 32px system-ui;
+        padding: 2px 8px;
+        position: sticky;
+        align-items: end;
+        grid-column: span ${separator && '2'};
+      `;
+      newDice.overlay = document.createElement('div');
+      newDice.inner1 = document.createElement('div');
+      newDice.inner2 = document.createElement('div');
+      // 'red' uses reused characters so is < '#000', and the actual color
+      // doesn't matter because it's always an emoji with it's own colors.
+      // We need a color to override browser default high-opacity text.
+      newDice.overlay.style.cssText = `
+        position: absolute;
+        color: red;
+      `;
+      newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
+      newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
+        display: inline-grid;
+        transition: all.5s;
+      `;
+
+      // position: absolute means the overlay will end up stacked on top no matter the append() order
+      newDice.append(newDice.overlay, newDice.inner1);
+      separator && newDice.append(separator, newDice.inner2);
+
+      diceElement.append(newDice);
+
+      newDice.onclick = () => {
+        for (let i = 9; i--;) {
+          setTimeout(() => {
+            newDice.result1 = Math.random() * 6 | 0; // 0-indexed, |0 to round down
+            newDice.inner1.innerHTML = diceFaces[newDice.result1];
+            newDice.inner1.style.rotate = `${Math.random()}turn`;
+
+            newDice.result2 = Math.random() * 6 | 0; // 0-indexed, |0 to round down
+            newDice.inner2.innerHTML = diceFaces[newDice.result2];
+            newDice.inner2.style.rotate = `${Math.random()}turn`;
+          }, 380 * i);
+          newDice.disabled = true; // Should be before the loop, but in here saves 1B
+        }
+
+        setTimeout(() => {
+          scoreElement.innerHTML = score += diceCallback(newDice.result1 + 1, newDice.result2 + 1);
+          newDice.overlay.innerHTML = '';
+          [...shopElement.children].filter(item => item.disabled = score < item.cost);
+          newDice.disabled = false;
+        }, 4000);
+      }
+    },
     separator ? diceFaces[5] + separator + diceFaces[5] : diceFaces[5]
   );
-
-  return addNewDice;
 };
 
 b.style.cssText = `
