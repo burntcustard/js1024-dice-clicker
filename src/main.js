@@ -1,4 +1,4 @@
-let score = 0;
+let score = 1000;
 
 const addUIElement = (gridInfo) => {
   const section = document.createElement('fieldset');
@@ -17,7 +17,7 @@ const addUIElement = (gridInfo) => {
 const scoreElement = addUIElement('grid-column:1/4'); // 1/-1 better but +1B
 const diceElement = addUIElement('grid:auto-flow dense 48px/48px 48px 48px 48px'); // repeat() better but bigger
 const critterElement = addUIElement('grid:auto-flow dense 32px/48px 48px 48px 48px');
-const shopElement = addUIElement('grid:auto-flow dense 48px/148px');
+const shopElement = addUIElement('grid:auto-flow dense 64px/148px');
 const diceFaces = '⚀⚁⚂⚃⚄⚅';
 
 const addNewShopItem = (cost, buyCallback, icon) => {
@@ -26,15 +26,11 @@ const addNewShopItem = (cost, buyCallback, icon) => {
 
   // Position sticky not needed but repeats with newDice cssText
   item.style.cssText = `
-    display: flex;
     font: 32px system-ui;
     padding: 2px 8px;
-    position: sticky;
-    align-items: end;
   `;
   costElement.style.cssText = `
     font: 12px system-ui;
-    margin-left: auto;
   `;
   costElement.innerHTML = item.cost = cost;
   item.append(icon, costElement);
@@ -70,8 +66,6 @@ const initDiceType = (
         display: flex;
         font: 32px system-ui;
         padding: 2px 8px;
-        position: sticky;
-        align-items: end;
         ${separator && 'grid-column:span 2'};
       `;
       newDice.overlay = document.createElement('div');
@@ -81,8 +75,8 @@ const initDiceType = (
       // doesn't matter because it's always an emoji with it's own colors.
       // We need a color to override browser default high-opacity text.
       newDice.overlay.style.cssText = `
-        position: absolute;
         color: red;
+        margin-left: -32px;
       `;
       newDice.inner1.innerHTML = newDice.inner2.innerHTML = diceFaces[5];
       newDice.inner1.style.cssText = newDice.inner2.style.cssText = `
@@ -91,8 +85,9 @@ const initDiceType = (
       `;
 
       // position: absolute means the overlay will end up stacked on top no matter the append() order
-      newDice.append(newDice.overlay, newDice.inner1);
+      newDice.append(newDice.inner1);
       separator && newDice.append(separator, newDice.inner2);
+      newDice.append(newDice.overlay);
 
       diceElement.append(newDice);
 
