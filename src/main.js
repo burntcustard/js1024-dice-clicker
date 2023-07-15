@@ -17,7 +17,7 @@ const addUIElement = (gridInfo) => {
 const scoreElement = addUIElement('grid-column:1/4'); // 1/-1 better but +1B
 const diceElement = addUIElement('grid:auto-flow dense 48px/48px 48px 48px 48px'); // repeat() better but bigger
 const critterElement = addUIElement('grid:auto-flow dense 32px/48px 48px 48px 48px');
-const shopElement = addUIElement('grid:auto-flow dense 48px/180px');
+const shopElement = addUIElement('grid:auto-flow dense 48px/148px');
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
 const addNewShopItem = (cost, buyCallback, icon) => {
