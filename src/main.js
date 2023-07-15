@@ -72,7 +72,7 @@ const initDiceType = (
         padding: 2px 8px;
         position: sticky;
         align-items: end;
-        grid-column: span ${separator && '2'};
+        ${separator && 'grid-column:span 2'};
       `;
       newDice.overlay = document.createElement('div');
       newDice.inner1 = document.createElement('div');
@@ -157,9 +157,9 @@ addNewShopItem(30, () => {
 
 initDiceType(60, (num1, num2) => num1 + num2, '+');
 
-initDiceType(600, (num1, num2) => num1 * num2, '×');
+initDiceType(300, (num1, num2) => num1 * num2, '×');
 
-initDiceType(6000, (num1, num2) => num1 ** num2, '^');
+initDiceType(3000, (num1, num2) => num1 ** num2, '^');
 
 scoreElement.innerHTML = score;
 
