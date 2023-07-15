@@ -5,6 +5,7 @@ const addUIElement = (gridInfo) => {
 
   section.style.cssText = `
     display: inline-grid;
+    font: 32px system-ui;
     margin: 2px;
     ${gridInfo}
   `;
@@ -123,7 +124,6 @@ const initDiceType = (
 // grid columns were repeat(3, auto) but repeating auto compresses better
 b.style.cssText = `
   display: inline-grid;
-  font: 20px system-ui;
 `;
 
 initDiceType(6, (num1, num2) => num1)();
@@ -149,9 +149,6 @@ addNewShopItem('🐀', 30, () => {
     setTimeout(nudgeDice, 8000);
   };
 
-  newRat.style.cssText = `
-    font: 32px system-ui;
-  `;
   newRat.innerHTML = '🐀';
   critterElement.append(newRat);
 
