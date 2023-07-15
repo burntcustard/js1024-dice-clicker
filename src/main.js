@@ -32,7 +32,7 @@ const addNewShopItem = (icon, cost, buyCallback) => {
     align-items: end;
   `;
   costElement.style.cssText = `
-    font: 16px monospace;
+    font: 14px system-ui;
     margin-left: auto;
   `;
   costElement.innerHTML = item.cost = cost;
