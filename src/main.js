@@ -20,7 +20,7 @@ const critterElement = addUIElement('grid:auto-flow dense 32px/48px 48px 48px 48
 const shopElement = addUIElement('grid:auto-flow dense 48px/180px');
 const diceFaces = [...'⚀⚁⚂⚃⚄⚅'];
 
-const addNewShopItem = (icon, cost, buyCallback) => {
+const addNewShopItem = (cost, buyCallback, icon) => {
   const item = document.createElement('button');
   const costElement = document.createElement('div');
 
@@ -41,7 +41,10 @@ const addNewShopItem = (icon, cost, buyCallback) => {
 
   item.onclick = () => {
     scoreElement.innerHTML = score -= item.cost;
-    costElement.innerHTML = item.cost = item.cost * 1.2 | 0; // Next time buying the item will be more expensive
+
+    // Next time buying the item will be more expensive
+    costElement.innerHTML = item.cost = item.cost * 1.2 | 0;
+
     // .map() or .forEach() makes more sense for refreshing the shop, but .filter() is used elsewhere too
     [...shopElement.children].filter(item => item.disabled = score < item.cost);
     buyCallback();
@@ -113,9 +116,9 @@ const initDiceType = (
   };
 
   addNewShopItem(
-    separator ? diceFaces[5] + separator + diceFaces[5] : diceFaces[5],
     cost,
-    addNewDice
+    addNewDice,
+    separator ? diceFaces[5] + separator + diceFaces[5] : diceFaces[5]
   );
 
   return addNewDice;
@@ -128,7 +131,7 @@ b.style.cssText = `
 
 initDiceType(6, (num1, num2) => num1)();
 
-addNewShopItem('🐀', 30, () => {
+addNewShopItem(30, () => {
   const newRat = document.createElement('div');
 
   const nudgeDice = () => {
@@ -153,7 +156,7 @@ addNewShopItem('🐀', 30, () => {
   critterElement.append(newRat);
 
   setTimeout(nudgeDice, 1000);
-});
+}, '🐀');
 
 initDiceType(60, (num1, num2) => num1 + num2, '+');
 
