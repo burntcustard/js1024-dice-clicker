@@ -4,7 +4,7 @@
 
 ### [Play online](https://burnt.io/js1024-dice-clicker)
 
-> [js1024](https://js1024.fun/) entry - the total size of [index.html](index.html) is exactly 1024B!
+> A rat-assisted dice-clicking [js1024](https://js1024.fun/) entry inspired by [Cookie Clicker](https://orteil.dashnet.org/cookieclicker/) and [Universal Paperclips](https://www.decisionproblem.com/paperclips/index2.html).
 
 ### How to play
 
